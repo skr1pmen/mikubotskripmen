@@ -143,4 +143,4 @@ async def хелп(ctx):
 
 Bot.loop.create_task(change_status())
 token = os.environ.get('TOKEN')#
-Bot.run(token)
+Bot.run(str(token))
