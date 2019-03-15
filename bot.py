@@ -142,5 +142,5 @@ async def хелп(ctx):
     await Bot.delete_message(ctx.message)
 
 Bot.loop.create_task(change_status())
-token = os.environ.get('TOKEN')#
+token = os.environ.get('bot_token')
 Bot.run(str(token))
