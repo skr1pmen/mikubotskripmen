@@ -101,25 +101,25 @@ async def чистить(ctx, amount = 10):
     #time.sleep(5) #Пауза в скрипте
 
 #________________________команды управления
-@Bot.command(pass_context=True)
-async def бан(ctx, user: discord.Member):
-    await Bot.ban(user)
-    await Bot.say("{} был забанен".format(user.name))
-@бан.error
-async def ban_error(ctx, error):
-    emb = discord.Embed(title= "Ахтунг",color = 0xff0000)
-    emb.add_field(name="Ошибка:",value="Такого пользователя нет")
-    await Bot.say(embed = emb)
+#@Bot.command(pass_context=True)
+#async def бан(ctx, user: discord.Member):
+#    await Bot.ban(user)
+#    await Bot.say("{} был забанен".format(user.name))
+#@бан.error
+#async def ban_error(ctx, error):
+#    emb = discord.Embed(title= "Ахтунг",color = 0xff0000)
+#    emb.add_field(name="Ошибка:",value="Такого пользователя нет")
+#    await Bot.say(embed = emb)
 
-@Bot.command(pass_context=True)
-async def кик(ctx, user: discord.Member):
-    await Bot.kick(user)
-    await Bot.say("{} был кикнут".format(user.name))
-@кик.error
-async def kick_error(ctx, error):
-    emb = discord.Embed(title= "Ахтунг",color = 0xff0000)
-    emb.add_field(name="Ошибка:",value="Такого пользователя нет")
-    await Bot.say(embed = emb)
+#@Bot.command(pass_context=True)
+#async def кик(ctx, user: discord.Member):
+#    await Bot.kick(user)
+#    await Bot.say("{} был кикнут".format(user.name))
+#@кик.error
+#async def kick_error(ctx, error):
+#    emb = discord.Embed(title= "Ахтунг",color = 0xff0000)
+#    emb.add_field(name="Ошибка:",value="Такого пользователя нет")
+#    await Bot.say(embed = emb)
 
 #@Bot.command(pass_context=True)
 #async def мут(ctx, user: discord.Member):
@@ -142,5 +142,5 @@ async def хелп(ctx):
     await Bot.delete_message(ctx.message)
 
 Bot.loop.create_task(change_status())
-token = os.environ.get('BOT_TOKEN')
+token = os.environ.get('TOKEN')#
 Bot.run(token)
