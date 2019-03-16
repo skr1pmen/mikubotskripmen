@@ -10,7 +10,7 @@ from discord.utils import get
 from itertools import cycle
 
 
-prefix = ["юбот","Юбот"]
+prefix = ["бот","бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
 status = ["Visual Studio Code"]
@@ -137,7 +137,7 @@ async def чистить(ctx, amount = 10):
 
 @Bot.command(pass_context=True)
 async def хелп(ctx):
-    emb = discord.Embed(title= "Доступные команды (префикс \"юбот\" ,но в скором он будет исправлен на \"бот\")",color = 0xffff00)
+    emb = discord.Embed(title= "Доступные команды ",color = 0xffff00)
     emb.add_field(name="{}инфо".format(prefix),value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
     emb.add_field(name="{}ктоты".format(prefix),value="Мику расскажет о себе")
     emb.add_field(name="{}чистить".format(prefix),value="Удаляет сообщения в чате.\"ботчистить 5\"")
