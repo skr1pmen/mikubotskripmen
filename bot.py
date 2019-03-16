@@ -5,7 +5,10 @@ import random
 import os
 from discord.ext import commands
 from discord.ext.commands import Bot
+from discord.utils import find
+from discord.utils import get
 from itertools import cycle
+
 
 prefix = "юбот"
 Bot = commands.Bot(command_prefix= prefix)
@@ -13,7 +16,8 @@ Bot.remove_command('help')
 status = ["Нужный идеи !!!","В разработке","Дудости меня полностью"]
 #                   Масивы для чата
 Miku = ["Miku","miku","Мику","мику","бота в студию","Бота в студию",]
-Xui = ["Пидр","пидр","Блять","блять","Сука","сука","Ебать","ебать","Хуй","хуй","Пизд","пизд",]
+Mat = ["Пидр","пидр","Блять","блять","Сука","сука","Ебать","ебать","Хуй","хуй","Пизд","пизд",]
+OffMat = ["Базар фильтруй {}, а то забаню))","Не матерись! Это плохо!"]
 Ypom = ["Привет {}, как дела?","Ты звал меня {} ?","Прости {}, но у меня уже есть создатель 😓","こんにちは {0} !\nЯпонский:\"Привет {0} !\""]
 SmailR_one = ["Мило))","Ваау","Мне нравится)", "А что так можно было ?"]
 Smail_one = [":Msmail:",]
@@ -41,9 +45,9 @@ async def on_message(message):
     for s in Smail_two: #Реакция на смайлик
         if s in message.content:
             await Bot.send_message(message.channel,random.choice(SmailR_two).format(message.author.mention))
-    for b in Xui: #Фильтр мата
+    for b in Mat: #Фильтр мата
         if b in message.content:
-            await Bot.send_message(message.channel, "Не матерись! Это плохо!")
+            await Bot.send_message(message.channel,random.choice(OffMat).format(message.author.mention))
             await Bot.delete_message(message)
     for c in Del: #Удаление "побочныйх" сообщений
         if c in message.content:
