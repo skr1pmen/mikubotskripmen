@@ -10,10 +10,10 @@ from discord.utils import get
 from itertools import cycle
 
 
-prefix = "юбот"
+prefix = ["юбот","Юбот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Нужный идеи !!!","В разработке","Дудости меня полностью"]
+status = ["Visual Studio Code"]
 #                   Масивы для чата
 Miku = ["Miku","miku","Мику","мику","бота в студию","Бота в студию",]
 Mat = ["Пидр","пидр","Блять","блять","Сука","сука","Ебать","ебать","Хуй","хуй","Пизд","пизд",]
