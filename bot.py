@@ -159,6 +159,7 @@ async def ктоты(ctx):
     emb.set_thumbnail(url= "https://cs11.pikabu.ru/post_img/2019/03/14/9/1552577750188312532.jpg")
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
+    await Bot.delete_message(ctx.message)
 
 Bot.loop.create_task(change_status())
 token = os.environ.get('bot_token')
