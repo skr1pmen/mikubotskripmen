@@ -139,11 +139,26 @@ async def чистить(ctx, amount = 10):
 async def хелп(ctx):
     emb = discord.Embed(title= "Доступные команды (префикс \"юбот\" ,но в скором он будет исправлен на \"бот\")",color = 0xffff00)
     emb.add_field(name="{}инфо".format(prefix),value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
+    emb.add_field(name="{}ктоты".format(prefix),value="Мику расскажет о себе")
     emb.add_field(name="{}чистить".format(prefix),value="Удаляет сообщения в чате.\"ботчистить 5\"")
     
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
+
+@Bot.command(pass_context=True)
+async def ктоты(ctx):
+    emb= discord.Embed(title="",color = 0x00bfff)
+    emb.set_author(name= "Мику Хацунэ\nHatsune Miku", url="https://ru.wikipedia.org/wiki/%D0%9C%D0%B8%D0%BA%D1%83_%D0%A5%D0%B0%D1%86%D1%83%D0%BD%D1%8D")
+    emb.add_field(name="1.Кто ты ?",value="Я японская виртуальная певица, созданная компанией Crypton Future Media 31 августа 2007 года.\nШутка, на самом деле я Бот созданный для управления сервером Skrip_men")
+    emb.add_field(name="2.Зачем ты нужна ?",value="Как я уже сказала, я нужна для помощи в управлении сервером Skrip_men")
+    emb.add_field(name="3.Когда создана ?",value="Моей официальной датой создания является 8 марта 2019\n(вот я вас мужиков трести в 2 раза больше буду в марте)...Хехе...мда неловко получиловь")
+    emb.add_field(name="4.Кто тебя написал и на каком языке ?",value="Я была написана Skrip_men'ом, на языке Python")
+    emb.add_field(name="__Помошь в создании:__",value="alex jonas,Southpaw,\__STRAYKERRR__")
+
+    emb.set_thumbnail(url= "https://cs11.pikabu.ru/post_img/2019/03/14/9/1552577750188312532.jpg")
+    emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+    await Bot.say(embed = emb)
 
 Bot.loop.create_task(change_status())
 token = os.environ.get('bot_token')
