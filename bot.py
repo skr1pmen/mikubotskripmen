@@ -138,9 +138,9 @@ async def чистить(ctx, amount = 10):
 @Bot.command(pass_context=True)
 async def хелп(ctx):
     emb = discord.Embed(title= "Доступные команды ",color = 0xffff00)
-    emb.add_field(name="{}инфо".format('бот'),value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
-    emb.add_field(name="{}ктоты".format('бот'),value="Мику расскажет о себе")
-    emb.add_field(name="{}чистить".format('),value="Удаляет сообщения в чате.\"ботчистить 5\"")
+    emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
+    emb.add_field(name="ботктоты", value="Мику расскажет о себе")
+    emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
     
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
