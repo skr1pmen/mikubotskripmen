@@ -147,7 +147,7 @@ async def хелп(ctx):
     emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
     emb.add_field(name="ботктоты", value="Мику расскажет о себе")
     emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
-    emb.add_field(name="ботранд",value="Выведет пользователю рандомное число в заданном ранее диапозоне")
+    emb.add_field(name="ботрандом",value="Выведет пользователю рандомное число в заданном ранее диапозоне")
     
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
