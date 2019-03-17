@@ -13,7 +13,7 @@ from itertools import cycle
 prefix = ["бот","Бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Visual Studio Code"]
+status = ["Version: 1.3"]
 #                   Масивы для чата
 Miku = ["Miku","miku","Мику","мику","бота в студию","Бота в студию",]
 Mat = ["Пидр","пидр","Блять","блять","Сука","сука","Ебать","ебать","Хуй","хуй","Пизд","пизд",]
@@ -30,7 +30,7 @@ Man= [":Orel:",":Reshka:"]
 @Bot.event
 async def on_ready():
     print("Бот :",format(Bot.user.name))
-    print("Версия ",format(Bot.user.name),": Beta")
+    print("Версия ",format(Bot.user.name),": 1.3")
     print("Дата создания : 8.03.2019")
     print("Бот успешно запушен!")
 
