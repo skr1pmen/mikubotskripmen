@@ -53,7 +53,7 @@ async def on_message(message):
         if c in message.content:
             time.sleep(5)
             await Bot.delete_message(message)
-    if message.content.startswith('ранд'):
+    if message.content.startswith('ботрандом'):
         vals = message.content.split(" ")
         NumberX = int(vals[1])
         NumberY = int(vals[2])
@@ -161,6 +161,7 @@ async def ктоты(ctx):
     emb.add_field(name="2.Зачем ты нужна ?",value="Как я уже сказала, я нужна для помощи в управлении сервером Skrip_men")
     emb.add_field(name="3.Когда создана ?",value="Моей официальной датой создания является 8 марта 2019\n(вот я вас мужиков трести в 2 раза больше буду в марте)...Хехе...мда неловко получиловь")
     emb.add_field(name="4.Кто тебя написал и на каком языке ?",value="Я была написана Skrip_men'ом, на языке Python")
+    emb.add_field(name="__Версия бота:__",value="1.3")
     emb.add_field(name="__Помошь в создании:__",value="alex jonas,Southpaw,\__STRAYKERRR__")
 
     emb.set_thumbnail(url= "https://cs11.pikabu.ru/post_img/2019/03/14/9/1552577750188312532.jpg")
