@@ -142,7 +142,8 @@ async def чистить(ctx, amount = 10):
 
 @Bot.command(pass_context=True)
 async def хелп(ctx):
-    emb = discord.Embed(title= "Доступные команды ",color = 0xffff00)
+    emb = discord.Embed(title= "*-команды без префикса",color = 0xffff00)
+    emb.set_author(name= "Доступные команды")
     emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
     emb.add_field(name="ботктоты", value="Мику расскажет о себе")
     emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
