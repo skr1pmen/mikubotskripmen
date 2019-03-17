@@ -53,6 +53,12 @@ async def on_message(message):
         if c in message.content:
             time.sleep(5)
             await Bot.delete_message(message)
+    if message.content.startswith('ранд'):
+        vals = message.content.split(" ")
+        NumberX = int(vals[1])
+        NumberY = int(vals[2])
+        msg = "Твоё число: " + str(random.randint(NumberX,NumberY))
+        await Bot.send_message(message.channel, msg)
     #       Временно
     for s in Man: #Реакция на смайлик
         if s in message.content:
@@ -81,7 +87,6 @@ async def тест(ctx):
 async def инфо(ctx, user: discord.User):
     emb = discord.Embed(title= "Информация о пользователе:",color = 0x32cd32)
     emb.add_field(name="Имя", value= user.name) #add_field - заполнение каким-либо текстом(универсальнвя вешь)
-    #emb.add_field(name="Ник",value= user.nikname)
     emb.add_field(name="Дата подключения",value=str(user.joined_at)[:16])
     if user.bot !=  False:
         emb.add_field(name="Бот",value= "Да")
@@ -89,7 +94,7 @@ async def инфо(ctx, user: discord.User):
         emb.add_field(name="Игра", value= user.game)
     emb.add_field(name= "ID",value=user.id)
     emb.set_thumbnail(url= user.avatar_url)
-    emb.set_author(name= Bot.user.name, url="https://discordapp.com/oauth2/authorize?&client_id=553538873825689600&scope=bot&permissions=8") #Научился вставлять ссылки в текст
+    emb.set_author(name="Рассказывает "+Bot.user.name, url="https://discordapp.com/oauth2/authorize?&client_id=553538873825689600&scope=bot&permissions=8") #Научился вставлять ссылки в текст
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)  
     await Bot.delete_message(ctx.message) #удаление отправленного сообщения
@@ -141,6 +146,7 @@ async def хелп(ctx):
     emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
     emb.add_field(name="ботктоты", value="Мику расскажет о себе")
     emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
+    emb.add_field(name="*ранд",value="Выведет пользователю рандомное число в заданном ранее диапозоне")
     
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
