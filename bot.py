@@ -13,10 +13,10 @@ from itertools import cycle
 prefix = ["бот","Бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Version: 1.3"]
+status = ["Version: 1.4"]
 #                   Масивы для чата
-Miku = ["Miku","miku","Мику","мику","бота в студию","Бота в студию",]
-Mat = ["Пидр","пидр","Бляд","бляд","Сука","сука","Ебать","ебать","Хуй","хуй","Пизд","пизд","Ска","ска","Пздц","пздц","Хуя","хуя","Бля","бля","ебал","Ебал","Курва","курва",]
+Miku = ["miku","мику","бота в студию",]
+Mat = ["пидр","бляд","сука","ебать","хуй","пизд","ска","пздц","хуя","бля","ебал","курва",]
 OffMat = ["Базар фильтруй {}, а то забаню))","Не матерись! Это плохо!"]
 Ypom = ["Привет {}, как дела?","Ты звал меня {} ?","Прости {}, но у меня уже есть создатель 😓","こんにちは {0} !\nЯпонский:\"Привет {0} !\""]
 SmailR_one = ["Мило))","Ваау","Мне нравится)", "А что так можно было ?"]
@@ -37,7 +37,7 @@ async def on_ready():
 @Bot.event
 async def on_message(message):
     for i in Miku: #Призыв к рандомномму дружелюбному сообщению
-        if i in message.content:
+        if i in message.content.lower():
             await Bot.send_message(message.channel,random.choice(Ypom).format(message.author.mention))
     for s in Smail_one: #Реакция на смайлик
         if s in message.content:
@@ -46,25 +46,40 @@ async def on_message(message):
         if s in message.content:
             await Bot.send_message(message.channel,random.choice(SmailR_two).format(message.author.mention))
     for b in Mat: #Фильтр мата
-        if b in message.content:
+        if b in message.content.lower():
             await Bot.send_message(message.channel,random.choice(OffMat).format(message.author.mention))
             await Bot.delete_message(message)
     for c in Del: #Удаление "побочныйх" сообщений
         if c in message.content:
             time.sleep(5)
             await Bot.delete_message(message)
-    if message.content.startswith('ботрандом'):
-        vals = message.content.split(" ")
-        NumberX = int(vals[1])
-        NumberY = int(vals[2])
-        msg = "Твоё число: " + str(random.randint(NumberX,NumberY))
-        await Bot.send_message(message.channel, msg)
     #       Временно
     for s in Man: #Реакция на смайлик
         if s in message.content:
             await Bot.send_message(message.channel,"Кажется скоро будет игра) Но это не точно")
 
     await Bot.process_commands(message)
+    
+# Выдоча новым участникам роли Новичка
+@Bot.event
+async def on_member_join(member):
+    role = discord.utils.get(member.server.roles, name="👶 Новичек")
+    await Bot.add_roles(member,role)
+    
+# Команда рандома
+@Bot.command(pass_context=True)
+async def рандом(ctx, one, two):
+    try:
+        one= int(one)
+        two= int(two)
+        arg = random.randint(one,two)
+    except ValueError:
+        await Bot.say("У нас так не принято, повтори нормально")
+    else:
+        await Bot.say("Твоё число: "+str(arg))
+@рандом.error
+async def рандом_error(ctx, error):
+    await Bot.say("Ты забыл ввести число, повтори попытку")
 
 #Выдача боту рандомного статуса
 async def change_status():
@@ -82,6 +97,18 @@ async def change_status():
 @Bot.command(pass_context= True)
 async def тест(ctx):
     await Bot.say("Привет {0} это тестовое сообщение,созданное для проверки работоспособности".format(ctx.message.author.mention))
+
+# Подключение и Отключение бота от голосового чата
+@Bot.command(pass_context=True)
+async def сюда(ctx):
+    channel = ctx.message.author.voice.voice_channel
+    await Bot.join_voice_channel(channel)
+@Bot.command(pass_context=True)
+async def отсюда(ctx):
+    server = ctx.message.server
+    voise_channel = Bot.voice_client_in(server)
+    await voise_channel.disconnect()
+
 #Информация о пользователе
 @Bot.command(pass_context= True)
 async def инфо(ctx, user: discord.User):
@@ -96,8 +123,11 @@ async def инфо(ctx, user: discord.User):
     emb.set_thumbnail(url= user.avatar_url)
     emb.set_author(name="Рассказывает "+Bot.user.name, url="https://discordapp.com/oauth2/authorize?&client_id=553538873825689600&scope=bot&permissions=8") #Научился вставлять ссылки в текст
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-    await Bot.say(embed = emb)  
+    await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message) #удаление отправленного сообщения
+@инфо.error
+async def инфо_error(ctx, error):
+    await Bot.say("Ты забыл ввести участника, повтори попытку)")
 #Очистка чата
 @Bot.command(pass_context=True)
 async def чистить(ctx, amount = 10):
