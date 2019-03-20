@@ -197,7 +197,7 @@ async def ктоты(ctx):
     emb.add_field(name="__Версия бота:__",value="1.4")
     emb.add_field(name="__Помошь в создании:__",value="alex jonas,Southpaw,\__STRAYKERRR__")
 
-    emb.set_thumbnail(url= "https://drive.google.com/open?id=1Dfy8yOq9nSVMsEdgqOfUIcODuDaUbDT2")
+    emb.set_thumbnail(url= "https://raw.githubusercontent.com/SkripMen/mikubotskripmen/master/%D0%90%D0%92%D0%90%D0%A2%D0%90%D0%A0%D0%9C%D0%98%D0%9A%D0%A3.png")
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
