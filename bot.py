@@ -13,7 +13,7 @@ from itertools import cycle
 prefix = ["бот","Бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Version: 1.4"]
+status = ["Version: 1.5"]
 #                   Масивы для чата
 Miku = ["miku","мику","бота в студию",]
 Mat = ["пидр","бляд","сука","ебать","хуй","пизд","ска","пздц","хуя","бля","ебал","курва","хер","спидораш",]
@@ -31,7 +31,7 @@ Man= [":Orel:",":Reshka:"]
 @Bot.event
 async def on_ready():
     print("Бот :",format(Bot.user.name))
-    print("Версия ",format(Bot.user.name),": 1.3")
+    print("Версия ",format(Bot.user.name),": 1.5")
     print("Дата создания : 8.03.2019")
     print("Бот успешно запушен!")
 
@@ -182,7 +182,7 @@ async def хелп(ctx):
     emb.add_field(name="ботсюда",value="Мику подключится к голосовому каналу на котором находитесь вы")
     emb.add_field(name="бототсюда",value="Мику отключится от вашего голосового канала(к сожалению работает не идеально, скоро будет исправленно)")
     
-    emb.add_field(name="__Версия бота:__",value="1.4")
+    emb.add_field(name="__Версия бота:__",value="1.5")
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
@@ -195,7 +195,7 @@ async def ктоты(ctx):
     emb.add_field(name="2.Зачем ты нужна ?",value="Как я уже сказала, я нужна для помощи в управлении сервером Skrip_men")
     emb.add_field(name="3.Когда создана ?",value="Моей официальной датой создания является 8 марта 2019\n(вот я вас мужиков трести в 2 раза больше буду в марте)...Хехе...мда неловко получиловь")
     emb.add_field(name="4.Кто тебя написал и на каком языке ?",value="Я была написана Skrip_men'ом, на языке Python")
-    emb.add_field(name="__Версия бота:__",value="1.4")
+    emb.add_field(name="__Версия бота:__",value="1.5")
     emb.add_field(name="__Помошь в создании:__",value="alex jonas,Southpaw,\__STRAYKERRR__")
 
     emb.set_thumbnail(url= "https://raw.githubusercontent.com/SkripMen/mikubotskripmen/master/%D0%90%D0%92%D0%90%D0%A2%D0%90%D0%A0%D0%9C%D0%98%D0%9A%D0%A3.png")
