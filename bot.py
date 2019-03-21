@@ -24,6 +24,7 @@ Smail_one = [":Msmail:",]
 SmailR_two = ["Это страшно","Что-то не так {}?","Брутально))", "Не смотри на меня так"]
 Smail_two = [":WOT:",]
 Del = ["Удалено сообщений"]
+Color = [0x000080,0x00ced1,0x00ffff,0x006400,0x00ff7f,0x7fff00,0x00fa9a,0xffd700,0x8b4513,0xb22222,0xff0000,0xff1493,0xd02090,0x9400d3,0x8a2be2]
 #               Временно
 Man= [":Orel:",":Reshka:"]
 #Консоль запуска бота
@@ -112,7 +113,7 @@ async def отсюда(ctx):
 #Информация о пользователе
 @Bot.command(pass_context= True)
 async def инфо(ctx, user: discord.User):
-    emb = discord.Embed(title= "Информация о пользователе:",color = 0x32cd32)
+    emb = discord.Embed(title= "Информация о пользователе:",color = random.choice(Color))
     emb.add_field(name="Имя", value= user.name) #add_field - заполнение каким-либо текстом(универсальнвя вешь)
     emb.add_field(name="Дата подключения",value=str(user.joined_at)[:16])
     if user.bot !=  False:
