@@ -177,6 +177,7 @@ async def чистить(ctx, amount = 10):
 async def хелп(ctx):
     emb = discord.Embed(title= "",color = 0xffff00)
     emb.set_author(name= "Доступные команды")
+    emb.add_field(name="ботправила",value="Мику расскажет правила сервера и её функционал")
     emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
     emb.add_field(name="ботктоты",value="Мику расскажет о себе")
     emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
@@ -186,6 +187,15 @@ async def хелп(ctx):
     
     emb.add_field(name="__Версия бота:__",value="{}".format(version))
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+    await Bot.say(embed = emb)
+    await Bot.delete_message(ctx.message)
+
+@Bot.command(pass_context=True)
+async def правила(ctx):
+    emb = discord.Embed(title="В общем давай я расскажу тебе правила сервера и мои возможности",color=0x9932cc)
+    emb.set_author(name="Привет я Мику! Я управляющая этим сервером.\nНе считая Skrip_men и его команды Aдминов конечно")
+    emb.add_field(name="__Правила:__",value="В разработке")
+
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
 
