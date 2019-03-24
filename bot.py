@@ -3,6 +3,8 @@ import time
 import asyncio
 import random
 import os
+from discord import Member
+from discord.ext.commands import has_permissions
 from discord.ext import commands
 from discord.ext.commands import Bot
 from discord.utils import find
@@ -13,20 +15,22 @@ from itertools import cycle
 prefix = ["бот","Бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Version: 1.5"]
+status = ["Version: 1.6"]
 #                   Масивы для чата
 Miku = ["miku","мику","бота в студию",]
 Mat = ["пидр"," бляд "," сука "," ебать "," хуй ","пизд"," ска "," пздц "," хуя "," бля "," ебал"," курва ","хер"," спидораш ",]
 OffMat = ["Базар фильтруй {}, а то забаню))","Не матерись! Это плохо!"]
 Ypom = ["Привет {}, как дела?","Ты звал меня {} ?","Прости {}, но у меня уже есть создатель 😓","こんにちは {0} !\nЯпонский:\"Привет {0} !\""]
+Fras_one = ["Скорее всего это какой-то заговор","Дверь мне запили","Это фиаско братан","хайпонём немножечко","Do you know the way?","Три полоски, тирипа-трипалоски","Раньше было лучше!!!","Я работаю, что ты скажешь на это Илон Маск?","Ровно пять минут назад..."]
+Fras_two = ["Это печально","Так блэт","Ти да? Чи да?","Я ламповая тян","-Котлетка\n-С макорошками?\n-С пюрешкой, спюрешкой!","А я промолчу","На лабутенах нах и в афигительныйх штанах","Потрачено","Шас бы шавухи","GGWP","Ахапку дров и плов готов","Шпили-вили","Gangnam Style","Где пруфы?","Лол кек чебурек","Хатико ждал и ты подаждёшь","Если честно он меня бесит","Дирижабль? Ага!","Ты на пенёк сел ?","Я родился","Вещь или бан","Ухади, отошёл","ты что рассист ?",]
+Fras_three = ["Скибиди","К-к-к-комбо","Хаю-Хай","Shut up and take my money","Like a boss","Музыка хорошая, только что-то кровь из ушей течёт","Боже какая шутка"]
 SmailR_one = ["Мило))","Ваау","Мне нравится)", "А что так можно было ?"]
 Smail_one = [":Msmail:",]
 SmailR_two = ["Это страшно","Что-то не так {}?","Брутально))", "Не смотри на меня так"]
 Smail_two = [":WOT:",]
 Del = ["Удалено сообщений"]
+Man = [":Orel:",":Reshka:"]
 Color = [0x000080,0x00ced1,0x00ffff,0x006400,0x00ff7f,0x7fff00,0x00fa9a,0xffd700,0x8b4513,0xb22222,0xff0000,0xff1493,0xd02090,0x9400d3,0x8a2be2]
-#               Временно
-Man= [":Orel:",":Reshka:"]
 #Консоль запуска бота
 @Bot.event
 async def on_ready():
@@ -35,7 +39,8 @@ async def on_ready():
     print("Дата создания : 8.03.2019")
     print("Бот успешно запушен!")
 
-version = "1.5"
+version = "1.6"
+data = "24.03.19"
 
 @Bot.event
 async def on_message(message):
@@ -56,10 +61,9 @@ async def on_message(message):
         if c in message.content:
             time.sleep(5)
             await Bot.delete_message(message)
-    #       Временно
-    for s in Man: #Реакция на смайлик
-        if s in message.content:
-            await Bot.send_message(message.channel,"Кажется скоро будет игра) Но это не точно")
+    for o in Man:
+        if o in message.content:
+            await Bot.send_message(message.channel,"Если ты захотел сыграть в манетку то напиши команду \"ботигры\" :video_game: ")
 
     await Bot.process_commands(message)
     
@@ -100,7 +104,26 @@ async def change_status():
 @Bot.command(pass_context= True)
 async def тест(ctx):
     await Bot.say("Привет {0} это тестовое сообщение,созданное для проверки работоспособности".format(ctx.message.author.mention))
-
+#       Рандомная фраза для пользователя
+@Bot.command(pass_context= True)
+async def фраза(ctx):
+    if random.randint(1,3) == 1:
+        R = (random.choice(Fras_one))
+        emb = discord.Embed(title= "",color = random.choice(Color))
+        emb.add_field(name="Фраза: ", value= R)
+        await Bot.say(embed = emb)
+    elif random.randint(1,3) == 2:
+        R = (random.choice(Fras_two))
+        emb = discord.Embed(title= "",color = random.choice(Color))
+        emb.add_field(name="Фраза: ", value= R)
+        await Bot.say(embed = emb)
+    elif random.randint(1,3) == 3:
+        R = (random.choice(Fras_three))
+        emb = discord.Embed(title= "",color = random.choice(Color))
+        emb.add_field(name="Фраза: ", value= R)
+        await Bot.say(embed = emb)
+    await Bot.delete_message(ctx.message)
+    
 # Подключение и Отключение бота от голосового чата
 @Bot.command(pass_context=True)
 async def сюда(ctx):
@@ -143,35 +166,39 @@ async def чистить(ctx, amount = 10):
     #time.sleep(5) #Пауза в скрипте
 
 #________________________команды управления
-#@Bot.command(pass_context=True)
-#async def бан(ctx, user: discord.Member):
-#    await Bot.ban(user)
-#    await Bot.say("{} был забанен".format(user.name))
-#@бан.error
-#async def ban_error(ctx, error):
-#    emb = discord.Embed(title= "Ахтунг",color = 0xff0000)
-#    emb.add_field(name="Ошибка:",value="Такого пользователя нет")
-#    await Bot.say(embed = emb)
-
-#@Bot.command(pass_context=True)
-#async def кик(ctx, user: discord.Member):
-#    await Bot.kick(user)
-#    await Bot.say("{} был кикнут".format(user.name))
-#@кик.error
-#async def kick_error(ctx, error):
-#    emb = discord.Embed(title= "Ахтунг",color = 0xff0000)
-#    emb.add_field(name="Ошибка:",value="Такого пользователя нет")
-#    await Bot.say(embed = emb)
-
-#@Bot.command(pass_context=True)
-#async def мут(ctx, user: discord.Member):
-#    await Bot.server_voice_state(user)
-#    await Bot.say("Я замутила {}".format(user.name))
-#@мут.error
-#async def server_voice_state_error(ctx, error):
-#    emb = discord.Embed(title= "Ахтунг",color = 0xff0000)
-#    emb.add_field(name="Ошибка:",value="Такого пользователя нет")
-#    await Bot.say(embed = emb)
+#Бан
+@Bot.command(pass_context=True)
+@commands.has_permissions(administrator = True)
+async def бан(ctx, user: discord.Member):
+   await Bot.ban(user)
+   await Bot.say("{} был забанен".format(user.name))
+@бан.error
+async def ban_error(ctx, error):
+    emb = discord.Embed(title= "",color = 0xff0000)
+    emb.add_field(name="Ошибка:",value="У вас недостаточно прав или такого пользователя нет")
+    await Bot.say(embed = emb)
+#Кик
+@Bot.command(pass_context=True)
+@commands.has_permissions(administrator = True)
+async def кик(ctx, user: discord.Member):
+   await Bot.kick(user)
+   await Bot.say("{} был кикнут".format(user.name))
+@кик.error
+async def kick_error(ctx, error):
+    emb = discord.Embed(title= "",color = 0xff0000)
+    emb.add_field(name="Ошибка:",value="У вас недостаточно прав или такого пользователя нет")
+    await Bot.say(embed = emb)
+#Мут
+@Bot.command(pass_context=True)
+@commands.has_permissions(administrator = True)
+async def мут(ctx, user: discord.Member):
+   await Bot.server_voice_state(user)
+   await Bot.say("Я замутила {}".format(user.name))
+@мут.error
+async def server_voice_state_error(ctx, error):
+    emb = discord.Embed(title= "",color = 0xff0000)
+    emb.add_field(name="Ошибка:",value="У вас недостаточно прав или такого пользователя нет")
+    await Bot.say(embed = emb)
 
 @Bot.command(pass_context=True)
 async def хелп(ctx):
@@ -180,12 +207,13 @@ async def хелп(ctx):
     emb.add_field(name="ботправила",value="Мику расскажет правила сервера и её функционал")
     emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
     emb.add_field(name="ботктоты",value="Мику расскажет о себе")
-    emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
     emb.add_field(name="ботранд",value="Выведет пользователю рандомное число в заданном ранее диапозоне")
+    emb.add_field(name="ботфраза",value="Скажет тебе рандомную фразу")
+    emb.add_field(name="ботигры",value="Выведет список доступных на сервере игр")
+    emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
     emb.add_field(name="ботсюда",value="Мику подключится к голосовому каналу на котором находитесь вы")
     emb.add_field(name="бототсюда",value="Мику отключится от вашего голосового канала(к сожалению работает не идеально, скоро будет исправленно)")
     
-    emb.add_field(name="__Версия бота:__",value="{}".format(version))
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
@@ -214,6 +242,64 @@ async def ктоты(ctx):
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
+
+#       Команда версии
+@Bot.command(pass_context=True)
+async def версия(ctx):
+    emb=  discord.Embed(title="Актуальная версия:",color = 0xffd700)
+    emb.add_field(name="Мику:",value="{0} от {1}".format(version,data))
+    await Bot.say(embed= emb)
+    
+#       Игры
+@Bot.command(pass_context=True)
+async def игры(ctx):
+    emb= discord.Embed(title="",color = 0xff4500)
+    emb.set_author(name="Список игр:")
+    emb.add_field(name="Орел и решка",value="Простая игра на удачу\nЧтобы поиграть введите команду \"ботор\", а после напишите сторону монетка на которую ставите")
+    await Bot.say(embed = emb)
+    await Bot.delete_message(ctx.message)
+#       Орел и решка
+@Bot.command(pass_context=True)
+async def ор(ctx, number):
+    if number == "Орел":
+        await Bot.say("Орёл говоришь, давай проверим")
+        time.sleep(0.5)
+        await Bot.say("Подбрасываю монету")
+        R = random.randint(1,2)
+        if R == 1:
+            await Bot.say("Орел! Удача на твоей стороне)")
+        else:
+            await Bot.say("Решка! Ты проиграл, но не волнуйся в следуюший раз повезёт")
+    if number == "Решка":
+        await Bot.say("Орёл говоришь, давай проверим")
+        time.sleep(0.5)
+        await Bot.say("Подбрасываю монету")
+        R = random.randint(1,2)
+        if R == 1:
+            await Bot.say("Орел! Удача на твоей стороне)")
+        else:
+            await Bot.say("Решка! Ты проиграл, но не волнуйся в следуюший раз повезёт")
+    if number == "орел":
+        await Bot.say("Орёл говоришь, давай проверим")
+        time.sleep(0.5)
+        await Bot.say("Подбрасываю монету")
+        R = random.randint(1,2)
+        if R == 1:
+            await Bot.say("Орел! Удача на твоей стороне)")
+        else:
+            await Bot.say("Решка! Ты проиграл, но не волнуйся в следуюший раз повезёт")
+    if number == "решка":
+        await Bot.say("Орёл говоришь, давай проверим")
+        time.sleep(0.5)
+        await Bot.say("Подбрасываю монету")
+        R = random.randint(1,2)
+        if R == 1:
+            await Bot.say("Решка! Удача на твоей стороне)")
+        else:
+            await Bot.say("Орел! Ты проиграл, но не волнуйся в следуюший раз повезёт")
+@ор.error
+async def ор_error(ctx,error):
+    await Bot.say("Не забудь указать сторону монетки!")
 
 Bot.loop.create_task(change_status())
 token = os.environ.get('bot_token')
