@@ -56,7 +56,6 @@ async def on_message(message):
     for b in Mat: #Фильтр мата
         if b in message.content.lower():
             await Bot.send_message(message.channel,random.choice(OffMat).format(message.author.mention))
-            await Bot.delete_message(message)
     for c in Del: #Удаление "побочныйх" сообщений
         if c in message.content:
             time.sleep(5)
