@@ -15,7 +15,7 @@ from itertools import cycle
 prefix = ["бот","Бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Version:{}".format(data)]
+status = ["Version:{}".format(version)]
 #                   Масивы для чата
 Miku = ["miku","мику","бота в студию",]
 Mat = ["пидр","бляд","сука","ебать","хуй","пизд","пздц","хуя","бля","ебал","курва","хер","спидораш",]
