@@ -15,7 +15,7 @@ from itertools import cycle
 prefix = ["бот","Бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Version: 1.7"]
+status = ["Version: 1.7.1"]
 #                   Масивы для чата
 Miku = ["miku","мику","бота в студию",]
 Mat = ["пидр","бляд","сука","ебать","хуй","пизд","пздц","хуя","бля","ебал","курва","хер","спидораш",]
@@ -40,8 +40,8 @@ async def on_ready():
     print("Дата создания : 8.03.2019")
     print("Бот успешно запушен!")
 
-version = "1.7"
-data = "4.04.19"
+version = "1.7.1"
+data = "18.04.19"
 
 @Bot.event
 async def on_message(message):
@@ -129,26 +129,14 @@ async def тест(ctx):
     msg2 = await Bot.edit_message(msg,"Пока")
     await asyncio.sleep(1)                  
     await Bot.edit_message(msg2,"Снова привет")
-
-#       Рандомная фраза для пользователя
-@Bot.command(pass_context= True)
-async def фраза(ctx):
-    if random.randint(1,3) == 1:
-        R = (random.choice(Fras_one))
-        emb = discord.Embed(title= "",color = random.choice(Color))
-        emb.add_field(name="Фраза: ", value= R)
-        await Bot.say(embed = emb)
-    elif random.randint(1,3) == 2:
-        R = (random.choice(Fras_two))
-        emb = discord.Embed(title= "",color = random.choice(Color))
-        emb.add_field(name="Фраза: ", value= R)
-        await Bot.say(embed = emb)
-    elif random.randint(1,3) == 3:
-        R = (random.choice(Fras_three))
-        emb = discord.Embed(title= "",color = random.choice(Color))
-        emb.add_field(name="Фраза: ", value= R)
-        await Bot.say(embed = emb)
-    await Bot.delete_message(ctx.message)
+    
+#       Команды ИГНОРА алисы
+@Bot.command(pass_context=True)
+async def техно(ctx):
+    await asyncio.sleep(1)
+@Bot.command(pass_context=True)
+async def казино(ctx):
+    await asyncio.sleep(1)
 
 # Подключение и Отключение бота от голосового чата
 
@@ -360,6 +348,7 @@ async def игры(ctx):
     emb= discord.Embed(title="",color = 0xff4500)
     emb.set_author(name="Список игр:")
     emb.add_field(name="Орел и решка",value="Простая игра на удачу\nЧтобы поиграть введите команду \"ботор\", а после напишите сторону монетка на которую ставите")
+    emb.add_field(name="Азино777",value="Симулятор игрового автомата Azino777\nЧтобы начать играть введите \"ботказино\"")
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
 #       Орел и решка
