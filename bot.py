@@ -174,7 +174,7 @@ async def инфо(ctx, user: discord.User):
         emb.add_field(name="Игра", value= user.game)
     emb.add_field(name= "ID",value=user.id)
     emb.set_thumbnail(url= user.avatar_url)
-    emb.set_author(name="Рассказывает "+Bot.user.name, url="https://discordapp.com/oauth2/authorize?&client_id=553538873825689600&scope=bot&permissions=8") #Научился вставлять ссылки в текст
+    emb.set_author(name="Рассказывает "+Bot.user.name, url="http://ceesty.com/wMyuy7") #Научился вставлять ссылки в текст
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message) #удаление отправленного сообщения
@@ -321,7 +321,7 @@ async def прав(ctx):
 @Bot.command(pass_context=True)
 async def ктоты(ctx):
     emb= discord.Embed(title="",color = 0x00bfff)
-    emb.set_author(name= "Мику Хацунэ\nHatsune Miku", url="https://ru.wikipedia.org/wiki/%D0%9C%D0%B8%D0%BA%D1%83_%D0%A5%D0%B0%D1%86%D1%83%D0%BD%D1%8D")
+    emb.set_author(name= "Мику Хацунэ\nHatsune Miku", url="http://ceesty.com/wMyuld")
     emb.add_field(name="1.Кто ты ?",value="Я японская виртуальная певица, созданная компанией Crypton Future Media 31 августа 2007 года.\nШутка, на самом деле я Бот созданный для управления сервером Skrip_men")
     emb.add_field(name="2.Зачем ты нужна ?",value="Как я уже сказала, я нужна для помощи в управлении сервером Skrip_men")
     emb.add_field(name="3.Когда создана ?",value="Моей официальной датой создания является 8 марта 2019\n(вот я вас мужиков трести в 2 раза больше буду в марте)...Хехе...мда неловко получиловь")
@@ -329,7 +329,7 @@ async def ктоты(ctx):
     emb.add_field(name="__Версия бота:__",value="{}".format(version))
     emb.add_field(name="__Помошь в создании:__",value="alex jonas,Southpaw,_\_STRAYKERRR__")
 
-    emb.set_thumbnail(url= "https://raw.githubusercontent.com/SkripMen/mikubotskripmen/master/%D0%90%D0%92%D0%90%D0%A2%D0%90%D0%A0%D0%9C%D0%98%D0%9A%D0%A3.png")
+    emb.set_thumbnail(url= "http://ceesty.com/wMyuz9")
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
