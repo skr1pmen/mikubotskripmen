@@ -15,7 +15,7 @@ from itertools import cycle
 prefix = ["бот","Бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Version: 1.7.1"]
+status = ["Version: 1.8"]
 #                   Масивы для чата
 Miku = ["miku","мику","бота в студию",]
 Mat = ["пидр","бляд","сука","ебать","хуй","пизд","пздц","хуя","бля","ебал","курва","хер","спидораш",]
@@ -40,8 +40,8 @@ async def on_ready():
     print("Дата создания : 8.03.2019")
     print("Бот успешно запушен!")
 
-version = "1.7.1"
-data = "18.04.19"
+version = "1.8"
+data = "03.07.19"
 
 @Bot.event
 async def on_message(message):
@@ -106,7 +106,9 @@ async def число(ctx, one, two):
         await Bot.say("Твоё число: "+str(arg))
 @число.error
 async def число_error(ctx, error):
-    await Bot.say("Ты забыл ввести число, повтори попытку")
+    await Bot.say("Ты забыл ввести число, повтори попытку")  
+
+
 
 #Выдача боту рандомного статуса
 async def change_status():
@@ -130,14 +132,6 @@ async def тест(ctx):
     await asyncio.sleep(1)                  
     await Bot.edit_message(msg2,"Снова привет")
     
-#       Команды ИГНОРА алисы
-@Bot.command(pass_context=True)
-async def техно(ctx):
-    await asyncio.sleep(1)
-@Bot.command(pass_context=True)
-async def казино(ctx):
-    await asyncio.sleep(1)
-
 # Подключение и Отключение бота от голосового чата
 
 players={}
@@ -174,7 +168,7 @@ async def инфо(ctx, user: discord.User):
         emb.add_field(name="Игра", value= user.game)
     emb.add_field(name= "ID",value=user.id)
     emb.set_thumbnail(url= user.avatar_url)
-    emb.set_author(name="Рассказывает "+Bot.user.name, url="http://ceesty.com/wMyuy7") #Научился вставлять ссылки в текст
+    emb.set_author(name="Рассказывает "+Bot.user.name, url="https://discordapp.com/oauth2/authorize?&client_id=553538873825689600&scope=bot&permissions=8") #Научился вставлять ссылки в текст
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
     await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message) #удаление отправленного сообщения
@@ -393,6 +387,67 @@ async def ор(ctx, number):
 @ор.error
 async def ор_error(ctx,error):
     await Bot.say("Не забудь указать сторону монетки!")
+
+#Игра азино777
+@Bot.command(pass_context=True)
+async def казино(ctx):
+    UseR = ["Лжеолигарх","Кто-то","Роскомнадзор","Скрудж Макдак"]
+    AsinO = ["Азино777","игрового автомата","лохотрона", "коробки передач"]
+    PychkA = ["дёрнул рычаг","передёрнул ручку","потянул вниз рычаг"]
+    user = random.choice(UseR)
+    asino = random.choice(AsinO)
+    pychka = random.choice(PychkA)
+    await Bot.say("{0} {1} {2} !".format(user,pychka,asino))
+    await asyncio.sleep(0.5)
+    mes = await Bot.say("И ему выпадает")
+    await asyncio.sleep(0.5)
+    await Bot.edit_message(mes,"И ему выпадает.")
+    await asyncio.sleep(0.5)
+    await Bot.edit_message(mes,"И ему выпадает..")
+    await asyncio.sleep(0.5)
+    await Bot.edit_message(mes,"И ему выпадает...")
+    R = random.randint(100,999)
+    await Bot.say("__{}__".format(R))
+    if R == 111 :
+        await Bot.say("Поздравляю ты победил!")
+    elif R == 222 :
+        await Bot.say("Поздравляю ты победил!")
+    elif R == 333 :
+        await Bot.say("Поздравляю ты победил!")
+    elif R == 444 :
+        await Bot.say("Поздравляю ты победил!")
+    elif R == 555 :
+        await Bot.say("Поздравляю ты победил!")
+    elif R == 666 :
+        await Bot.say("Ах ты Черт, ну ладно ты победил!")
+    elif R == 777 :
+        await Bot.say("Поздравляю ты победил!")
+    elif R == 888 :
+        await Bot.say("Поздравляю ты победил!")
+    elif R == 999 :
+        await Bot.say("Поздравляю ты победил!")
+    else:
+        await Bot.say("Ничего в следующий раз повезёт")
+
+#       Рандомная фраза для пользователя
+@Bot.command(pass_context= True)
+async def фраза(ctx):
+    if random.randint(1,3) == 1:
+        R = (random.choice(Fras_one))
+        emb = discord.Embed(title= "",color = random.choice(Color))
+        emb.add_field(name="Фраза: ", value= R)
+        await Bot.say(embed = emb)
+    elif random.randint(1,3) == 2:
+        R = (random.choice(Fras_two))
+        emb = discord.Embed(title= "",color = random.choice(Color))
+        emb.add_field(name="Фраза: ", value= R)
+        await Bot.say(embed = emb)
+    elif random.randint(1,3) == 3:
+        R = (random.choice(Fras_three))
+        emb = discord.Embed(title= "",color = random.choice(Color))
+        emb.add_field(name="Фраза: ", value= R)
+        await Bot.say(embed = emb)
+    await Bot.delete_message(ctx.message)
 
 Bot.loop.create_task(change_status())
 token = os.environ.get('bot_token')
