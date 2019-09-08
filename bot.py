@@ -2,6 +2,8 @@ import discord
 import time
 import asyncio
 import random
+import youtube_dl
+import requests
 import os
 from discord import Member
 from discord.ext.commands import has_permissions
@@ -11,11 +13,15 @@ from discord.utils import find
 from discord.utils import get
 from itertools import cycle
 
+version = "1.8.3"
+data = "08.09.19"
 
 prefix = ["бот","Бот"]
 Bot = commands.Bot(command_prefix= prefix)
 Bot.remove_command('help')
-status = ["Version: 1.8"]
+# status = ["Проверка {}".format(version)]
+status = ["Версия: {}".format(version)]
+
 #                   Масивы для чата
 Miku = ["miku","мику","бота в студию",]
 Mat = ["пидр","бляд","сука","ебать","хуй","пизд","пздц","хуя","бля","ебал","курва","хер","спидораш",]
@@ -31,17 +37,17 @@ Smail_two = [":WOT:",]
 Del = ["Удалено сообщений"]
 Man = [":Orel:",":Reshka:"]
 RandChoslo = ["Random.org","рандомайзеру","серверу"]
+UseR = ["Лжеолигарх","Кто-то","Роскомнадзор","Скрудж Макдак"]
+AsinO = ["Азино777","игрового автомата","лохотрона", "коробки передач"]
+PychkA = ["дёрнул рычаг","передёрнул ручку","потянул вниз рычаг"]
 Color = [0x000080,0x00ced1,0x00ffff,0x006400,0x00ff7f,0x7fff00,0x00fa9a,0xffd700,0x8b4513,0xb22222,0xff0000,0xff1493,0xd02090,0x9400d3,0x8a2be2]
 #Консоль запуска бота
 @Bot.event
 async def on_ready():
     print("Бот :",format(Bot.user.name))
-    print("Версия ",format(Bot.user.name),": {}".format(version))
+    print("Версия",format(Bot.user.name),": {}".format(version))
     print("Дата создания : 8.03.2019")
     print("Бот успешно запушен!")
-
-version = "1.8"
-data = "03.07.19"
 
 @Bot.event
 async def on_message(message):
@@ -116,21 +122,31 @@ async def change_status():
     msgs= cycle(status)
 
     while not Bot.is_closed:
-        current_status = next(msgs)
-        await Bot.change_presence(game=discord.Game(name=(current_status)))
-        await asyncio.sleep(60)
+        rand = random.randint(1,2)
+        if rand == 1:
+            current_status = next(msgs)
+            await Bot.change_presence(game=discord.Game(name=(current_status)))
+            time=random.randint(1,3600)
+            await asyncio.sleep(time)
+        elif rand == 2:
+            await Bot.change_presence(game=discord.Game(name=("Поиск обновлений")))
+            await asyncio.sleep(20)
+            await Bot.change_presence(game=discord.Game(name=("Обновлений не найдено")))
+            await asyncio.sleep(15)
 
 #_____________________________ИЗУЧИТЬ http://qaru.site/questions/15101732/permission-system-for-discordpy-bot
 
 #Тестовая комманда
 @Bot.command(pass_context= True)
 async def тест(ctx):
-    await Bot.say("Привет {0} это тестовое сообщение,созданное для проверки работоспособности".format(ctx.message.author.mention))
+    mes = await Bot.say("Привет {0} это тестовое сообщение,созданное для проверки работоспособности".format(ctx.message.author.mention))
     msg = await Bot.say("Привет") 
     await asyncio.sleep(1)                  
     msg2 = await Bot.edit_message(msg,"Пока")
     await asyncio.sleep(1)                  
     await Bot.edit_message(msg2,"Снова привет")
+    reaction = "🤖" # это робот)
+    await Bot.add_reaction(mes ,reaction)
     
 # Подключение и Отключение бота от голосового чата
 
@@ -184,7 +200,7 @@ async def чистить(ctx, amount = 10):
     async for message in Bot.logs_from(channel, limit=int(amount)+1):
         messages.append(message)
     await Bot.delete_messages(messages)
-    await Bot.say("Удалено сообщений  {}".format(int(amount)))
+    await Bot.say("Удалено сообщений: {}".format(int(amount)))
     #time.sleep(5) #Пауза в скрипте
 
 #________________________команды управления
@@ -224,92 +240,93 @@ async def server_voice_state_error(ctx, error):
 
 @Bot.command(pass_context=True)
 async def хелп(ctx,com):
-    if com == None:
+    if com == "инфо":
         emb = discord.Embed(title= "",color = 0xffff00)
-        emb.set_author(name= "Доступные команды")
-        emb.add_field(name="ботправ",value="Мику расскажет правила сервера")
+        emb.set_author(name= "Команда **инфо**")
         emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
-        emb.add_field(name="ботктоты",value="Мику и Алиса расскажут о себе")
-        emb.add_field(name="ботчисло",value="Выведет пользователю рандомное число в заданном ранее диапозоне")
-        emb.add_field(name="ботфраза",value="Скажет тебе рандомную фразу")
-        emb.add_field(name="ботигры",value="Выведет список доступных на сервере игр")
-        emb.add_field(name="ботверсия",value="Скажет актуальную на данный момент версию ботов")
-        emb.add_field(name="ботбан",value="Забанит пользователя (только для администраторов)")
-        emb.add_field(name="боткик",value="Кикнет пользователя (только для администраторов)")
-        emb.add_field(name="ботмут",value="Замьютит пользователя (только для администраторов)")
-        emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
-        emb.add_field(name="ботсюда",value="Мику подключится к голосовому каналу на котором находитесь вы")
-        emb.add_field(name="бототсюда",value="Мику отключится от вашего голосового канала(к сожалению работает не идеально, скоро будет исправленно)")
-    
         emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
         await Bot.say(embed = emb)
         await Bot.delete_message(ctx.message)
-    else:
-        if com == "инфо":
-            emb = discord.Embed(title= "",color = 0xffff00)
-            emb.set_author(name= "Команда **инфо**")
-            emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
-            emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-            await Bot.say(embed = emb)
-            await Bot.delete_message(ctx.message)
-        elif com == "прав":
-            emb = discord.Embed(title= "",color = 0xffff00)
-            emb.set_author(name= "Команда **прав**")
-            emb.add_field(name="ботправ",value="Мику расскажет правила сервера")
-            emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-            await Bot.say(embed = emb)
-            await Bot.delete_message(ctx.message)
-        elif com == "ктоты":
-            emb = discord.Embed(title= "",color = 0xffff00)
-            emb.set_author(name= "Команда **ктоты**")
-            emb.add_field(name="ботктоты",value="Мику и Алиса расскажут о себе")
-            emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-            await Bot.say(embed = emb)
-            await Bot.delete_message(ctx.message)
-        elif com == "число":
-            emb = discord.Embed(title= "",color = 0xffff00)
-            emb.set_author(name= "Команда **число**")
-            emb.add_field(name="ботчисло",value="Выведет пользователю рандомное число в заданном ранее диапозоне")
-            emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-            await Bot.say(embed = emb)
-            await Bot.delete_message(ctx.message)
-        elif com == "фраза":
-            emb = discord.Embed(title= "",color = 0xffff00)
-            emb.set_author(name= "Команда **фраза**")
-            emb.add_field(name="ботфраза",value="Скажет тебе рандомную фразу")
-            emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-            await Bot.say(embed = emb)
-            await Bot.delete_message(ctx.message)
-        elif com == "игры":
-            emb = discord.Embed(title= "",color = 0xffff00)
-            emb.set_author(name= "Команда **игры**")
-            emb.add_field(name="ботигры",value="Выведет список доступных на сервере игр")
-            emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-            await Bot.say(embed = emb)
-            await Bot.delete_message(ctx.message)
-        elif com == "версия" :
-            emb = discord.Embed(title= "",color = 0xffff00)
-            emb.set_author(name= "Команда **версия**")
-            emb.add_field(name="ботверсия",value="Скажет актуальную на данный момент версию ботов")
-            emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-            await Bot.say(embed = emb)
-            await Bot.delete_message(ctx.message)
-        elif com == "чистить":
-            emb = discord.Embed(title= "",color = 0xffff00)
-            emb.set_author(name= "Команда **чистить**")
-            emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
-            emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-            await Bot.say(embed = emb)
-            await Bot.delete_message(ctx.message)      
+    elif com == "прав":
+        emb = discord.Embed(title= "",color = 0xffff00)
+        emb.set_author(name= "Команда **прав**")
+        emb.add_field(name="ботправ",value="Мику расскажет правила сервера")
+        emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+        await Bot.say(embed = emb)
+        await Bot.delete_message(ctx.message)
+    elif com == "ктоты":
+        emb = discord.Embed(title= "",color = 0xffff00)
+        emb.set_author(name= "Команда **ктоты**")
+        emb.add_field(name="ботктоты",value="Мику расскажет о себе")
+        emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+        await Bot.say(embed = emb)
+        await Bot.delete_message(ctx.message)
+    elif com == "число":
+        emb = discord.Embed(title= "",color = 0xffff00)
+        emb.set_author(name= "Команда **число**")
+        emb.add_field(name="ботчисло",value="Выведет пользователю рандомное число в заданном ранее диапозоне")
+        emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+        await Bot.say(embed = emb)
+        await Bot.delete_message(ctx.message)
+    elif com == "фраза":
+        emb = discord.Embed(title= "",color = 0xffff00)
+        emb.set_author(name= "Команда **фраза**")
+        emb.add_field(name="ботфраза",value="Скажет тебе рандомную фразу")
+        emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+        await Bot.say(embed = emb)
+        await Bot.delete_message(ctx.message)
+    elif com == "игры":
+        emb = discord.Embed(title= "",color = 0xffff00)
+        emb.set_author(name= "Команда **игры**")
+        emb.add_field(name="ботигры",value="Выведет список доступных на сервере игр")
+        emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+        await Bot.say(embed = emb)
+        await Bot.delete_message(ctx.message)
+    elif com == "версия" :
+        emb = discord.Embed(title= "",color = 0xffff00)
+        emb.set_author(name= "Команда **версия**")
+        emb.add_field(name="ботверсия",value="Скажет актуальную на данный момент версию бота")
+        emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+        await Bot.say(embed = emb)
+        await Bot.delete_message(ctx.message)
+    elif com == "чистить":
+        emb = discord.Embed(title= "",color = 0xffff00)
+        emb.set_author(name= "Команда **чистить**")
+        emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
+        emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+        await Bot.say(embed = emb)
+        await Bot.delete_message(ctx.message)
+@хелп.error
+async def хелп_error(ctx, error):
+    emb = discord.Embed(title= "",color = 0xffff00)
+    emb.set_author(name= "Доступные команды")
+    emb.add_field(name="ботправ",value="Мику расскажет правила сервера")
+    emb.add_field(name="ботинфо",value="Выдает краткую информацию о пользователе.\"ботинфо @Miku#8252\"")
+    emb.add_field(name="ботктоты",value="Мику расскажет о себе")
+    emb.add_field(name="ботчисло",value="Выведет пользователю рандомное число в заданном ранее диапозоне")
+    emb.add_field(name="ботфраза",value="Скажет тебе рандомную фразу")
+    emb.add_field(name="ботигры",value="Выведет список доступных на сервере игр")
+    emb.add_field(name="ботверсия",value="Скажет актуальную на данный момент версию бота")
+    emb.add_field(name="ботбан",value="Забанит пользователя (только для администраторов)")
+    emb.add_field(name="боткик",value="Кикнет пользователя (только для администраторов)")
+    emb.add_field(name="ботмут",value="Замьютит пользователя (только для администраторов)")
+    emb.add_field(name="ботчистить",value="Удаляет сообщения в чате.\"ботчистить 5\"")
+    emb.add_field(name="ботсюда",value="Мику подключится к голосовому каналу на котором находитесь вы")
+    emb.add_field(name="бототсюда",value="Мику отключится от вашего голосового канала(к сожалению работает не идеально, скоро будет исправленно)")
+
+    emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
+    await Bot.say(embed = emb)
+    await Bot.delete_message(ctx.message)
+
 
 @Bot.command(pass_context=True)
 async def прав(ctx):
     emb = discord.Embed(title="В общем давай я расскажу тебе правила сервера.",color=0x9932cc)
     emb.set_author(name="Привет я Мику! Я управляющая этим сервером.\nНе считая Skrip_men и его команды Aдминов конечно.")
-    emb.add_field(name="__Правила:__",value="•__**Запрещена**__ ненормативная лексика.\n•__**Запрещено**__ писать бессмысленную или малосодержательную информацию, не несущую смысловой нагрузки (флудить).\n•__**Запрещается**__ публикация материалов грубого, насильственного характера, жестокости, и т.д.\n•__**Запрещается**__ дискриминация по любому признаку\n•__**Запрещается**__ употребление уничижительных определений различных национальностей, народов и групп.\n•__**Запрещается**__ разглашение чьей бы то ни было персональной информации.\n•__**Запрещается**__ разглашение чьей бы то ни было персональной информации.\n•__**Запрещена**__ публикация сообщений, призывающих к суициду.\n•При недобросовестной работе __**Администраторов**__ сервера сообщить __**Skrip_men'y**__\n•При нахождении какой-либо ошибке в работе __Mику__/__Aлисы__ сообщить __**Администраторам**__")
+    emb.add_field(name="__Правила:__",value="•__**Запрещена**__ ненормативная лексика.\n•__**Запрещено**__ писать бессмысленную или малосодержательную информацию, не несущую смысловой нагрузки (флудить).\n•__**Запрещается**__ публикация материалов грубого, насильственного характера, жестокости, и т.д.\n•__**Запрещается**__ дискриминация по любому признаку\n•__**Запрещается**__ употребление уничижительных определений различных национальностей, народов и групп.\n•__**Запрещается**__ разглашение чьей бы то ни было персональной информации.\n•__**Запрещена**__ публикация сообщений, призывающих к суициду.\n•При недобросовестной работе __**Администраторов**__ сервера сообщить __**Skrip_men'y**__\n•При нахождении какой-либо ошибке в работе __Mику__ сообщить __**Администраторам**__")
 
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
-    await Bot.say(embed = emb)
+    await Bot.send_message(ctx.message.author,embed = emb)
     await Bot.delete_message(ctx.message)
 
 @Bot.command(pass_context=True)
@@ -321,7 +338,7 @@ async def ктоты(ctx):
     emb.add_field(name="3.Когда создана ?",value="Моей официальной датой создания является 8 марта 2019\n(вот я вас мужиков трести в 2 раза больше буду в марте)...Хехе...мда неловко получиловь")
     emb.add_field(name="4.Кто тебя написал и на каком языке ?",value="Я была написана Skrip_men'ом, на языке Python")
     emb.add_field(name="__Версия бота:__",value="{}".format(version))
-    emb.add_field(name="__Помошь в создании:__",value="alex jonas,Southpaw,_\_STRAYKERRR__")
+    emb.add_field(name="__Помошь в создании:__",value="alex jonas,Southpaw,STRAYKERRR")
 
     emb.set_thumbnail(url= "https://raw.githubusercontent.com/SkripMen/mikubotskripmen/master/%D0%90%D0%92%D0%90%D0%A2%D0%90%D0%A0%D0%9C%D0%98%D0%9A%D0%A3.png")
     emb.set_footer(text="Все права защищены Miku©", icon_url= Bot.user.avatar_url )
@@ -352,48 +369,69 @@ async def ор(ctx, number):
         await Bot.say("Орёл говоришь, давай проверим")
         time.sleep(0.5)
         await Bot.say("Подбрасываю монету")
+        time.sleep(1)
         R = random.randint(1,2)
         if R == 1:
             await Bot.say("Орел! Удача на твоей стороне)")
         else:
             await Bot.say("Решка! Ты проиграл, но не волнуйся в следуюший раз повезёт")
-    if number == "Решка":
+    elif number == "Решка":
         await Bot.say("Орёл говоришь, давай проверим")
         time.sleep(0.5)
         await Bot.say("Подбрасываю монету")
+        time.sleep(1)
         R = random.randint(1,2)
         if R == 1:
             await Bot.say("Орел! Удача на твоей стороне)")
         else:
             await Bot.say("Решка! Ты проиграл, но не волнуйся в следуюший раз повезёт")
-    if number == "орел":
+    elif number == "орел":
         await Bot.say("Орёл говоришь, давай проверим")
         time.sleep(0.5)
         await Bot.say("Подбрасываю монету")
+        time.sleep(1)
         R = random.randint(1,2)
         if R == 1:
             await Bot.say("Орел! Удача на твоей стороне)")
         else:
             await Bot.say("Решка! Ты проиграл, но не волнуйся в следуюший раз повезёт")
-    if number == "решка":
+    elif number == "решка":
         await Bot.say("Орёл говоришь, давай проверим")
         time.sleep(0.5)
         await Bot.say("Подбрасываю монету")
+        time.sleep(1)
         R = random.randint(1,2)
         if R == 1:
             await Bot.say("Решка! Удача на твоей стороне)")
         else:
             await Bot.say("Орел! Ты проиграл, но не волнуйся в следуюший раз повезёт")
+    elif number == "Орёл":
+        await Bot.say("Орёл говоришь, давай проверим")
+        time.sleep(0.5)
+        await Bot.say("Подбрасываю монету")
+        time.sleep(1)
+        R = random.randint(1,2)
+        if R == 1:
+            await Bot.say("Орел! Удача на твоей стороне)")
+        else:
+            await Bot.say("Решка! Ты проиграл, но не волнуйся в следуюший раз повезёт")
+    elif number == "орёл":
+        await Bot.say("Орёл говоришь, давай проверим")
+        time.sleep(0.5)
+        await Bot.say("Подбрасываю монету")
+        time.sleep(1)
+        R = random.randint(1,2)
+        if R == 1:
+            await Bot.say("Орел! Удача на твоей стороне)")
+        else:
+            await Bot.say("Решка! Ты проиграл, но не волнуйся в следуюший раз повезёт")
 @ор.error
-async def ор_error(ctx,error):
+async def op_error(ctx,error):
     await Bot.say("Не забудь указать сторону монетки!")
 
 #Игра азино777
 @Bot.command(pass_context=True)
 async def казино(ctx):
-    UseR = ["Лжеолигарх","Кто-то","Роскомнадзор","Скрудж Макдак"]
-    AsinO = ["Азино777","игрового автомата","лохотрона", "коробки передач"]
-    PychkA = ["дёрнул рычаг","передёрнул ручку","потянул вниз рычаг"]
     user = random.choice(UseR)
     asino = random.choice(AsinO)
     pychka = random.choice(PychkA)
@@ -406,7 +444,7 @@ async def казино(ctx):
     await Bot.edit_message(mes,"И ему выпадает..")
     await asyncio.sleep(0.5)
     await Bot.edit_message(mes,"И ему выпадает...")
-    R = random.randint(100,999)
+    R = random.randint(111,999)
     await Bot.say("__{}__".format(R))
     if R == 111 :
         await Bot.say("Поздравляю ты победил!")
@@ -448,6 +486,37 @@ async def фраза(ctx):
         emb.add_field(name="Фраза: ", value= R)
         await Bot.say(embed = emb)
     await Bot.delete_message(ctx.message)
+
+# # Команда для отапрвки сообщения от Мику туда где было написано
+# @Bot.command(pass_context=True)
+# @commands.has_permissions(administrator = True)
+# async def скажи(ctx,*nums):
+#     mesage= nums
+#     await Bot.delete_message(ctx.message)
+#     emb = discord.Embed(title="", colour = 0x00ff80)
+#     emb.add_field(name="Сообщение!",value=mesage)
+#     await Bot.say(embed=emb)
+#     # await Bot.send_message(discord.Object(id='550082377637036035'),"test")
+
+# # Команда бля отправки сообщения от Мику в определённый канал
+# @Bot.command(pass_context=True)
+# @commands.has_permissions(administrator = True)
+# async def обьяв(ctx,chanel,*nums):
+#     bed = "(\',)"
+#     nums = tuple(nums)
+#     say = nums
+#     says = say.replace(bed,"")
+#     chan = chanel
+#     await Bot.delete_message(ctx.message)
+#     if chan == "чат":
+#         await Bot.send_message(discord.Object(id='550082377637036035'),says)
+#     if chan == "обновление":
+#         await Bot.send_message(discord.Object(id='556556507039399936'),says)
+
+# #       Камень-ножницы-бумага
+# @Bot.command(pass_context= True)
+# async def суефа(ctx,item):
+#     await Bot.say("Камень,Ножницы,Бумага")
 
 Bot.loop.create_task(change_status())
 token = os.environ.get('bot_token')
