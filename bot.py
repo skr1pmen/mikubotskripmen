@@ -2,6 +2,7 @@ import discord
 import time
 import asyncio
 import random
+import youtube_dl
 import requests
 import os
 from discord import Member
@@ -517,7 +518,6 @@ async def фраза(ctx):
 # async def суефа(ctx,item):
 #     await Bot.say("Камень,Ножницы,Бумага")
 
-# Bot.loop.create_task(change_status())
-# token = os.environ.get('bot_token')
-# Bot.run(str(token))
-Bot.run("oYc1sKttz0tdo7Q59CGkBu4GuqU_r_DF")
+Bot.loop.create_task(change_status())
+token = os.environ.get('bot_token')
+Bot.run(str(token))
