@@ -1,1 +1,1 @@
-worker: python Miku.py
+worker: python bot.py
