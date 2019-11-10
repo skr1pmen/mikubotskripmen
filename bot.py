@@ -2,7 +2,6 @@ import discord
 import time
 import asyncio
 import random
-import youtube_dl
 import requests
 import os
 from discord import Member
