@@ -53,23 +53,23 @@ async def on_ready():
 async def on_message(message):
     for i in Miku: #Призыв к рандомномму дружелюбному сообщению
         if i in message.content.lower():
-            await Bot.say(message.channel,random.choice(Ypom).format(message.author.mention))
+            await Bot.send_massage(message.channel,random.choice(Ypom).format(message.author.mention))
     for s in Smail_one: #Реакция на смайлик
         if s in message.content:
-            await Bot.say(message.channel,random.choice(SmailR_one))
+            await Bot.send_massage(message.channel,random.choice(SmailR_one))
     for s in Smail_two: #Реакция на смайлик
         if s in message.content:
-            await Bot.say(message.channel,random.choice(SmailR_two).format(message.author.mention))
+            await Bot.send_massage(message.channel,random.choice(SmailR_two).format(message.author.mention))
     for b in Mat: #Фильтр мата
         if b in message.content.lower():
-            await Bot.say(message.channel,random.choice(OffMat).format(message.author.mention))
+            await Bot.send_massage(message.channel,random.choice(OffMat).format(message.author.mention))
     for c in Del: #Удаление "побочныйх" сообщений
         if c in message.content:
             time.sleep(5)
             await Bot.delete_message(message)
     for o in Man:
         if o in message.content:
-            await Bot.say(message.channel,"Если ты захотел сыграть в манетку то напиши команду \"ботигры\" :video_game: ")
+            await Bot.send_massage(message.channel,"Если ты захотел сыграть в манетку то напиши команду \"ботигры\" :video_game: ")
     
     await Bot.process_commands(message)
 
