@@ -56,7 +56,7 @@ async def on_message(message):
             await Bot.send_message(message.channel,random.choice(Ypom).format(message.author.mention))
     for s in Smail_one: #Реакция на смайлик
         if s in message.content:
-            await Bot.send_message(message.channel,random.choice(SmailR_one))
+            await Bot.say(message.channel,random.choice(SmailR_one))
     for s in Smail_two: #Реакция на смайлик
         if s in message.content:
             await Bot.send_message(message.channel,random.choice(SmailR_two).format(message.author.mention))
